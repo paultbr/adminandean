@@ -1,0 +1,21 @@
+.portfolio-item {
+    margin-bottom: 10px;
+  }
+
+.portafolio-div1{
+    height: 100px;
+}
+/*tabla angular*/
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td, th {
+  width: 20%;
+}
+/**/

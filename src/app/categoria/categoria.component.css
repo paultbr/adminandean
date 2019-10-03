@@ -1,0 +1,44 @@
+.btn-opcion:hover{
+    cursor: pointer !important; 
+}
+.btn-imagen{
+    color: gray; 
+    font-size: 100px;
+}
+.btn-imagen:hover{
+    cursor: pointer;
+}
+.imagen-cat{
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    max-height: 178px;
+}
+.btn-cancel-img{
+    position: absolute; 
+    background-color:transparent;
+    top: 0; 
+    right: 0;
+    color: black;
+    font-weight: bold;
+}
+.btn-cancel-img:hover{
+    cursor: pointer;
+}
+.item-icon-material{
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center; 
+    align-content: center;
+    width: auto; 
+    margin: 10px; 
+    border: 1px solid rgba(226, 220, 220, 0);
+    transform: 0.2s;
+}
+.item-icon-material:hover{
+    border: 1px solid orange;
+    transform: scale(1.2);
+    cursor: pointer;
+
+}

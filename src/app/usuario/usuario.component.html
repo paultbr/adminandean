@@ -1,0 +1,212 @@
+<div class="app-body">
+  <main class="main">
+    <app-breadcrumb [migas]="migas"></app-breadcrumb>
+    <mat-card id="card-clientes">
+      <mat-card-header>
+        <mat-card-title>CLIENTES</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-accordion>
+          <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" (closed)="setStep(1)">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Cliente</mat-panel-title>
+              <mat-panel-description>Aquí aparecen los datos de un cliente seleccionado</mat-panel-description>
+            </mat-expansion-panel-header>
+            <mat-card *ngIf="usuarioService.usuarioSeleccionado._id">
+              <mat-card-title>Modificar Cliente</mat-card-title>
+              <form #nuevoUsuarioForm="ngForm">
+                <mat-card-content>
+                  <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="usuarioService.usuarioSeleccionado._id">
+                  <mat-form-field id="tipoDocumento" class="campo-form">
+                    <mat-select name="tipoDocumento" #tipoDocumento="ngModel" [(ngModel)]="usuarioService.usuarioSeleccionado.tipoDocumento"
+                      placeholder="Tipo Documento">
+                      <mat-option *ngFor="let tipodoc of tiposDocumento" [value]="tipodoc">{{tipodoc}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field id="numeroDocumento" class="campo-form">
+                    <input matInput name="numeroDocumento" #numeroDocumento="ngModel" [(ngModel)]="usuarioService.usuarioSeleccionado.numeroDocumento"
+                      placeholder="Número de Documento" minlength="8" required>
+                    <mat-error *ngIf="numeroDocumento.invalid && (numeroDocumento.dirty || numeroDocumento.touched) && numeroDocumento.errors.required">El
+                      número de Documento es obligatorio</mat-error>
+                    <mat-error *ngIf="numeroDocumento.invalid && (numeroDocumento.dirty || numeroDocumento.touched) && numeroDocumento.errors.minlength">El
+                      documento debe tener mínimo 8 dígitos</mat-error>
+                  </mat-form-field>
+                  <mat-form-field id="nombres" class="campo-form">
+                    <input matInput placeholder="Nombres" name="nombres" #nombres="ngModel" [(ngModel)]="usuarioService.usuarioSeleccionado.nombres"
+                      required>
+                    <mat-error *ngIf="nombres.invalid && (nombres.dirty || nombres.touched) && nombres.errors.required">El
+                      campo nombres es requerido</mat-error>
+                  </mat-form-field>
+                  <mat-form-field id="apellidos" class="campo-form">
+                    <input matInput name="apellidos" #apellidos="ngModel" [(ngModel)]="usuarioService.usuarioSeleccionado.apellidos"
+                      placeholder="Apellidos" required>
+                    <mat-error *ngIf="apellidos.invalid && (apellidos.dirty || apellidos.touched) && apellidos.errors.required">El
+                      campo apellidos es requerido</mat-error>
+                  </mat-form-field>
+                  <mat-form-field id="correo" class="campo-form">
+                    <input matInput name="correo" #correo="ngModel" [(ngModel)]="usuarioService.usuarioSeleccionado.correo"
+                      placeholder="Correo Electrónico" disabled>
+                  </mat-form-field>
+                  <mat-radio-group id="sexo" name="sexo" #sexo="ngModel" [(ngModel)]="usuarioService.usuarioSeleccionado.sexo">
+                    <mat-label>Sexo: &nbsp;</mat-label>
+                    <mat-radio-button value="F">&nbsp;Femenino&nbsp;</mat-radio-button>
+                    <mat-radio-button value="M">&nbsp;Masculino&nbsp;</mat-radio-button>
+                  </mat-radio-group>
+                  <mat-form-field id="fechaNacimiento" class="campo-form">
+                    <input matInput [matDatepicker]="picker" placeholder="Fecha de Nacimiento" name="fechaNacimiento"
+                      #fechaNacimiento="ngModel" [(ngModel)]="usuarioService.usuarioSeleccionado.fechaNacimiento">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                  <mat-form-field id="fechaAfiliacion" class="campo-form">
+                    <input matInput [matDatepicker]="fechaAfiliacion" placeholder="Fecha de Afiliación" name="fecha_afiliacion"
+                      #fecha_afiliacion="ngModel" [(ngModel)]="usuarioService.usuarioSeleccionado.fecha_afiliacion"
+                      disabled>
+                    <mat-datepicker-toggle matSuffix [for]="fechaAfiliacion"></mat-datepicker-toggle>
+                    <mat-datepicker #fechaAfiliacion></mat-datepicker>
+                  </mat-form-field>
+                  <mat-checkbox id="promociones" name="promociones" #promociones="ngModel" [(ngModel)]="usuarioService.usuarioSeleccionado.promociones">Promociones:
+                  </mat-checkbox>
+                </mat-card-content>
+                <mat-card-actions>
+                  <button mat-raised-button color="primary" (click)="agregarUsuario(nuevoUsuarioForm)">GUARDAR DATOS</button>
+                </mat-card-actions>
+              </form>
+            </mat-card>
+            <mat-card [hidden]="!mostrarDireccion">
+              <mat-card-title>EDITAR DIRECCIÓN</mat-card-title>
+              <mat-card-content>
+                <form #nuevaDireccion="ngForm">
+                  <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="direccionService.dirSelected._id">
+                  <mat-form-field id="departamento" class="campo-form">
+                    <mat-select name="departamento" #departamento="ngModel" [(ngModel)]="direccionService.dirSelected.departamento"
+                      (selectionChange)="departamento_selected($event.value)" placeholder="Departamento">
+                      <mat-option *ngFor="let dep of regionService.regiones" [value]="dep.departamento">{{dep.departamento}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field id="provincia" class="campo-form">
+                    <mat-select name="provincia" #provincia="ngModel" [(ngModel)]="direccionService.dirSelected.provincia"
+                      (selectionChange)="provincia_selected($event.value)" placeholder="Provincia">
+                      <mat-option *ngFor="let prov of regionService.departamentoSelected.provincias" [value]="prov.provincia">{{prov.provincia}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field id="distrito" class="campo-form">
+                    <mat-select name="distrito" #distrito="ngModel" [(ngModel)]="direccionService.dirSelected.distrito"
+                      placeholder="Distrito">
+                      <mat-option *ngFor="let dis of regionService.provinciaSelected.distritos" [value]="dis">{{dis}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field id="direccion">
+                    <input matInput name="direccion" #direccion="ngModel" [(ngModel)]="direccionService.dirSelected.direccion"
+                      placeholder="Dirección" required>
+                    <mat-error *ngIf="direccion.invalid && (direccion.dirty || direccion.touched) && direccion.errors.required">La
+                      dirección es un campo requerido</mat-error>
+                  </mat-form-field>
+                  <mat-form-field id="tipolocal" class="campo-form">
+                    <mat-select name="tipolocal" #tipoLocal="ngModel" [(ngModel)]="direccionService.dirSelected.tipolocal"
+                      placeholder="Local de Envío">
+                      <mat-option *ngFor="let vivienda of tiposVivienda" [value]="vivienda">{{vivienda}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field id="referencia">
+                    <input matInput name="referencia" #referencia="ngModel" [(ngModel)]="direccionService.dirSelected.referencia"
+                      placeholder="Referencia" required>
+                  </mat-form-field>
+                  <mat-error *ngIf="referencia.invalid && (referencia.dirty || referencia.touched) && referencia.errors.required">La
+                    referencia es un campo obligatorio</mat-error>
+                  <mat-form-field id="telefono">
+                    <input matInput name="telefono" #telefono="ngModel" [(ngModel)]="direccionService.dirSelected.telefono"
+                      placeholder="Teléfono/Celular" required minlength="6">
+                    <mat-error *ngIf="telefono.invalid && (telefono.dirty || telefono.touched) && telefono.errors.required">El
+                      teléfono es un campo obligatorio</mat-error>
+                    <mat-error *ngIf="telefono.invalid && (telefono.dirty || telefono.touched) && telefono.errors.minlength">El
+                      telefono debe tener una longitud mínima de 6 digitos</mat-error>
+                  </mat-form-field>
+                </form>
+              </mat-card-content>
+              <mat-card-actions>
+                <button mat-raised-button color="primary" (click)="agregarDireccion(nuevaDireccion)">GUARDAR DATOS DE
+                  DIRECCIÓN</button>
+              </mat-card-actions>
+            </mat-card>
+            <div class="mat-elevation-z8" *ngIf="mostrarListaDirecciones" [hidden]="!mostrarListaDirecciones">
+              <table mat-table [dataSource]="direccionDataSource" matSort>
+                <ng-container matColumnDef="direccion">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Dirección </th>
+                  <td mat-cell *matCellDef="let element"> {{element.direccion}} </td>
+                </ng-container>
+                <ng-container matColumnDef="departamento">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Departamento </th>
+                  <td mat-cell *matCellDef="let element"> {{element.departamento}} </td>
+                </ng-container>
+                <ng-container matColumnDef="provincia">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Provincia </th>
+                  <td mat-cell *matCellDef="let element"> {{element.provincia}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="distrito">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Distrito </th>
+                  <td mat-cell *matCellDef="let element"> {{element.distrito}} </td>
+                </ng-container>
+                <ng-container matColumnDef="edit">
+                  <th mat-header-cell *matHeaderCellDef>Editar</th>
+                  <td mat-cell *matCellDef="let element">
+                    <button mat-icon-button color="accent">
+                      <mat-icon aria-label="Editar" (click)="editarDireccion(element)">create</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="direccionColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: direccionColumns;"></tr>
+              </table>
+              <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            </div>
+          </mat-expansion-panel>
+          <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Clientes</mat-panel-title>
+              <mat-panel-description>Lista de los clientes</mat-panel-description>
+            </mat-expansion-panel-header>
+            <mat-form-field [style.width]="'100%'">
+              <input matInput (keyup)="aplicarFiltro($event.target.value)" placeholder="Buscar cliente">
+            </mat-form-field>
+            <div class="mat-elevation-z8">
+              <table mat-table [dataSource]="usuarioDataSource" matSort>
+                <ng-container matColumnDef="correo">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Correo Electrónico </th>
+                  <td mat-cell *matCellDef="let element"> {{element.correo}} </td>
+                </ng-container>
+                <ng-container matColumnDef="nombres">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombres y Apellidos </th>
+                  <td mat-cell *matCellDef="let element"> {{element.nombres}} {{element.apellidos}} </td>
+                </ng-container>
+                <ng-container matColumnDef="documento">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Documento </th>
+                  <td mat-cell *matCellDef="let element"> {{element.tipoDocumento}}: {{element.numeroDocumento}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="afiliacion">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de Afiliación </th>
+                  <td mat-cell *matCellDef="let element"> {{element.fecha_afiliacion}} </td>
+                </ng-container>
+                <ng-container matColumnDef="edit">
+                  <th mat-header-cell *matHeaderCellDef>Editar</th>
+                  <td mat-cell *matCellDef="let element">
+                    <button mat-icon-button color="accent">
+                      <mat-icon aria-label="Editar" (click)="editarUsuario(element)">create</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="usuarioColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: usuarioColumns;"></tr>
+              </table>
+              <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-card-content>
+      <mat-card-footer>
+      </mat-card-footer>
+    </mat-card>
+  </main>
+</div>

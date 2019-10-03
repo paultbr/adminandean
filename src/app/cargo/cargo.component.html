@@ -1,0 +1,48 @@
+<div class="app-body">
+  <main class="main">
+    <app-breadcrumb [migas]="migas"></app-breadcrumb>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>CARGOS</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-progress-bar mode="indeterminate" [hidden]="mostrarCargos"></mat-progress-bar>
+        <mat-form-field [hidden]="!mostrarCargos">
+          <input matInput (keyup)="aplicarFiltro($event.target.value)" placeholder="Buscar">
+        </mat-form-field>
+        <div class="mat-elevation-z8" [hidden]="!mostrarCargos">
+          <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+              <td id="idCargo" mat-cell *matCellDef="let element"> {{element.id.substring(17) }} </td>
+            </ng-container>
+            <ng-container matColumnDef="amount">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Monto (S/) </th>
+              <td id="monto" mat-cell *matCellDef="let element"> {{element.amount / 100 | number}} </td>
+            </ng-container>
+            <ng-container matColumnDef="amount_refunded">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Monto Reembolsado (S/) </th>
+              <td id="monto-reembolso" mat-cell *matCellDef="let element"> {{element.amount_refunded / 100 | number}} </td>
+            </ng-container>
+            <ng-container matColumnDef="merchant_message">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Mensaje de Culqi</th>
+              <td id="mensaje-pasarela" mat-cell *matCellDef="let element"> {{element.outcome.merchant_message}}</td>
+            </ng-container>
+            <ng-container matColumnDef="opciones">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Ver Detalle </th>
+              <td id="opciones" mat-cell *matCellDef="let element">
+                <div>
+                  <mat-icon class="btn-opcion" color="primary" (click)="detalleCargo(element.id)">arrow_drop_down_circle
+                  </mat-icon>
+                </div>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </main>
+</div>

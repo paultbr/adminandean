@@ -1,0 +1,19 @@
+table {
+  width: 100%;
+}
+
+#botones {
+  padding-left: 1rem;
+}
+
+#iconNuevo {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+#nombre, #latitud, #longitud {
+  padding-left: .5rem;
+  padding-right: .5rem;
+  width: 33%;
+}

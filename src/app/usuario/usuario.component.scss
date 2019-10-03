@@ -1,0 +1,37 @@
+@import '~@angular/material/theming';
+
+#card-clientes {
+    background-color: mat-color($mat-gray, 50);
+}
+
+#tipoDocumento, #numeroDocumento, #nombres, #apellidos, #sexo, #fechaNacimiento, #fechaAfiliacion, #correo, #direccion, #tipolocal, #referencia, #telefono, #provincia, #distrito, #departamento{
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  #tipoDocumento{
+    width: 30%;
+  }
+  #numeroDocumento {
+    width: 70%;
+  }
+  
+  #nombres, #apellidos, #sexo, #fechaNacimiento,#fechaAfiliacion, #correo, #direccion, #tipolocal, #referencia, #telefono {
+    width: 50%;
+  }
+  
+  #provincia, #departamento, #distrito {
+    width: 33%;
+  }
+  
+  table{
+    width: 100%;
+  }
+  
+  mat-card {
+    margin: 10px 10px;
+  }
+
+  mat-expansion-panel {
+      background-color: mat-color($mat-gray, 300);
+  }

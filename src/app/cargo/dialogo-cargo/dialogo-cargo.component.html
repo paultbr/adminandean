@@ -1,0 +1,72 @@
+<h2 mat-dialog-title [style.text-align]="'center'">Detalle del Cargo Realizado</h2>
+<mat-spinner *ngIf="cargo == null" style="margin: auto;"></mat-spinner >
+<div mat-dialog-content *ngIf="cargo != null">
+  <mat-list dense>
+    <h3 mat-subheader>Detalles Generales</h3>
+    <mat-list-item>
+        <h4 mat-line>ID</h4>
+        <p mat-line>{{cargo.id}}</p>
+    </mat-list-item>
+    <mat-list-item>
+        <h4 mat-line>Código de Autorización</h4>
+        <p mat-line>{{cargo.authorization_code}}</p>
+    </mat-list-item>
+    <mat-list-item>
+      <h4 mat-line>Monto Pagado</h4>
+      <p mat-line>S/ {{cargo.amount / 100 | number}}</p>
+    </mat-list-item>
+    <mat-list-item>
+      <h4 mat-line>Monto Reembolsado</h4>
+      <p mat-line>S/ {{cargo.amount_refunded / 100 | number}}</p>
+    </mat-list-item>
+    <mat-list-item>
+      <h4 mat-line>Puntos de Fraude</h4>
+      <p mat-line>{{cargo.fraud_score}}</p>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <h3 mat-subheader>Resultado</h3>
+    <mat-list-item>
+      <h4 mat-line>Código</h4>
+      <p mat-line>{{cargo.outcome.code}}</p>
+    </mat-list-item>
+    <mat-list-item>
+        <h4 mat-line>Tipo de Mensaje</h4>
+        <p mat-line>{{cargo.outcome.type}}</p>
+      </mat-list-item>
+      <mat-list-item>
+          <h4 mat-line>Código de referencia</h4>
+          <p mat-line>{{cargo.outcome.code}}</p>
+        </mat-list-item>
+    <mat-list-item>
+      <h4 mat-line>Mensaje Mercantil</h4>
+      <p mat-line>{{cargo.outcome.merchant_message}}</p>
+    </mat-list-item>
+    <mat-list-item>
+      <h4 mat-line>Mensaje par el cliente</h4>
+      <p mat-line>{{cargo.outcome.user_message}}</p>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <h3 mat-subheader>Datos de Pago</h3>
+    <mat-list-item>
+      <h4 mat-line>Número de Tarjeta</h4>
+      <p mat-line>{{cargo.source.card_number.substring(8)}}</p>
+    </mat-list-item>
+    <mat-list-item>
+      <h4 mat-line>Correo electrónico</h4>
+      <p mat-line>{{cargo.source.email}}</p>
+    </mat-list-item>
+    <mat-list-item>
+      <h4 mat-line>Fecha de Creación</h4>
+      <p mat-line>{{cargo.source.creation_date | date}}</p>
+    </mat-list-item>
+    <mat-list-item>
+      <h4 mat-line>Marca de la Tarjeta</h4>
+      <p mat-line>{{cargo.source.iin.card_brand}}</p>
+    </mat-list-item>
+    <mat-list-item>
+      <h4 mat-line>Tipo de Tarjeta</h4>
+      <p mat-line>{{cargo.source.iin.card_type}}</p>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+  </mat-list>
+</div>

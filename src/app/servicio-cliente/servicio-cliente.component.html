@@ -1,0 +1,99 @@
+<div class="app-body">
+    <main class="main">
+        <app-breadcrumb [migas]="migas"></app-breadcrumb>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4">
+                    <mat-card style="min-height: 400px;">
+                        <mat-card-header>
+                            <mat-card-title>Lista de Conversaciones</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <mat-list *ngFor="let listaChat of servicioClienteService.listaConversaciones">
+                                <h3 mat-subheader>{{listaChat.fecha | date}}</h3>
+                                <mat-list-item *ngFor="let conversacion of listaChat.conversaciones" [style.background-color]="conversacion.concluido == true ? 'red' : 'white'" (click)="mostrarMensajes(conversacion)" style="cursor: pointer;">
+                                    <mat-icon mat-list-icon>person_pin</mat-icon>
+                                    <h4 mat-line>{{conversacion.nombreCliente}}</h4>
+                                    <p mat-line>{{conversacion.tipoConsulta}}</p>
+                                    <p mat-line style="font-size: 12px; font-family:'Courier New', Courier, monospace;">{{conversacion.consulta}}</p>
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                            </mat-list>
+                        </mat-card-content>
+                        <mat-card-footer style="position: absolute; bottom: 0px; width: 100%">
+                            <button mat-raised-button color="accent" style="width: 100%;" (click)="obtenerChats()">Obtener mas chats</button>
+                        </mat-card-footer>
+                    </mat-card>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card" style="width: 100%; min-height: 450px;">
+                        <div class="card-body" style="padding: 0px;">
+                            <div class="header-chat" style="width: 100%; min-height: 45px; display: flex; flex-direction: row;padding: 10px; background-color: white">
+                                <label style=" margin-right: 10px;">De: </label> <label>{{servicioClienteService.chatSeleccionado
+                                    ? servicioClienteService.chatSeleccionado.nombreCliente : 'Ningún chat
+                                    seleccionado.'}}</label>
+                                <button mat-raised-button color="accent" style="position: absolute; right: 5px;"
+                                    [hidden]="servicioClienteService.chatSeleccionado ? servicioClienteService.chatSeleccionado.unir : false"
+                                    (click)="unirseChat()">Unirse al Chat</button>
+                            </div>
+                            <div>
+                                <hr style="padding: 0px; margin: 0px;cursor:pointer; width: 100%">
+                            </div>
+                            <div class="contenido-chat" #chatPrincipal [style.opacity]="servicioClienteService.chatSeleccionado ? (servicioClienteService.chatSeleccionado.unir ? '1' : '0.25') : '0.25'">
+                                <div *ngFor="let mensaje of listaMensajesChat">
+                                    <div class="mensaje-global" *ngIf="mensaje.autor == '$desconectar'">
+                                        <div class="info-mensaje">
+                                            <div style="width: 50%;  flex-grow: 0;">
+                                                <label style="margin:0px;"> {{mensaje.fecha}} {{mensaje.hora}}</label>
+                                            </div>
+                                            <div style="width: 20%; flex-grow: 0;">
+                                            </div>
+                                        </div>
+                                        <div class="item-mensaje-user">{{mensaje.cuerpo}}</div>
+                                        <img src="./assets/imagenes/andeano.png" alt="Andeano" style="border-radius: 50%; width: 40px; height: 40px;">
+                                    </div>
+                                    <div class="mensaje-cliente" *ngIf="mensaje.autor != 'admin' && mensaje.autor != '$desconectar'">
+                                        <div class="info-mensaje">
+                                            <div style="width: 30%; flex-grow: 0;">
+                                                <label style="margin:0px; ">{{mensaje.autor}}</label>
+                                            </div>
+                                            <div style="width: 20%; flex-grow: 0;">
+                                            </div>
+                                            <div style="width: 50%;  flex-grow: 0; text-align: right;">
+                                                <label style="margin:0px;"> {{mensaje.tiempo | date : 'h:mma'}}</label>
+                                            </div>
+                                        </div>
+                                        <img src="./assets/imagenes/cliente-icon.png" alt="Andeano" style="border-radius: 50%; width: 40px; height: 40px;">
+                                        <div class="item-mensaje-cliente">{{mensaje.cuerpo}} </div>
+                                    </div>
+                                    <div class="mensaje-user" *ngIf="mensaje.autor == 'admin'">
+                                        <div class="info-mensaje">
+                                            <div style="width: 50%;  flex-grow: 0;">
+                                                <label style="margin:0px;"> {{mensaje.tiempo | date : 'h:mma'}}</label>
+                                            </div>
+                                            <div style="width: 20%; flex-grow: 0;">
+                                            </div>
+                                            <div style="width: 30%; flex-grow: 0; text-align: right;">
+                                                <label style="margin:0px; ">{{mensaje.usuario}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="item-mensaje-user">{{mensaje.cuerpo}}</div>
+                                        <img src="./assets/imagenes/andeano.png" alt="Andeano" style="border-radius: 50%; width: 40px; height: 40px;">
+                                    </div>
+                                    <div *ngIf="true">
+                                        {{MoverScroll(chatPrincipal)}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="footer-chat" style="width: 100%; min-height: 50px; display: flex; flex-direction: row;padding: 10px; background-color: rgb(233, 223, 223);"
+                                [style.opacity]="servicioClienteService.chatSeleccionado ? (servicioClienteService.chatSeleccionado.unir ? '1' : '0.25') : '0.25'">
+                                <input placeholder="Ingrese mensaje" id="contenidomensaje" style="width: 100%; min-height: 35px; padding-left: 15px; flex-grow: 0; border-radius: 10px; border:1px solid rgb(240, 234, 234);background-color: white;"
+                                    (keypress)="verificarMensaje($event)" [disabled]="servicioClienteService.chatSeleccionado ? !servicioClienteService.chatSeleccionado.unir : 'true'">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

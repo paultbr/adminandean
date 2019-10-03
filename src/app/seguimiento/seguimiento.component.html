@@ -1,0 +1,105 @@
+<div class="app-body">
+  <main class="main">
+    <app-breadcrumb [migas]="migas"></app-breadcrumb>
+    <mat-card>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <div>
+              <mat-form-field appearance="outline" style="margin-right: 8px">
+                <mat-label>Correo del Cliente</mat-label>
+                <input matInput placeholder="Correo" id="Correo" [(ngModel)]="datcorreo">
+                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+              </mat-form-field>
+              <label style="margin-right: 8px">O</label>
+              <mat-form-field appearance="outline" style="margin-right: 8px">
+                <mat-label>Nro de Pedido</mat-label>
+                <input matInput placeholder="Nro de Pedido" id="nroped" [(ngModel)]="datnroped">
+                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+              </mat-form-field>
+              <button mat-raised-button (click)="consultar()">Consultar</button>
+            </div>
+          </div>
+          <div class="col-lg-12" hidden id="datosSeg">
+            <mat-card>
+              <label>DATOS DEL PEDIDO</label>
+              <table class="table">
+                <thead style="font-size: 12px">
+                  <tr>
+                    <th>idUsuario</th>
+                    <th>Nro de Pedido</th>
+                    <th>Estado Pago</th>
+                    <th>Precio Total</th>
+                    <th>Fecha Compra</th>
+                    <th>Fecha Envio</th>
+                    <th>Fecha Entrega</th>
+                    <th>Estado de Envio</th>
+                    <th>Articulos</th>
+                    <th>Cambiar Estado</th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let pedidos of arreglopedidos; index as i" style="font-size: 12px" >
+                  <tr>
+                    <td>{{pedidos.idUsuario}}</td>
+                    <td>{{pedidos.NroPedido}}</td>
+                    <td>{{pedidos.EstadoPago}}</td>
+                    <td>{{pedidos.PrecioTotal}}</td>
+                    <td>{{pedidos.FechaCompra}}</td>
+                    <td>{{pedidos.FechaEnvio}}</td>
+                    <td>{{pedidos.FechaEntrega}}</td>
+                    <td>{{pedidos.EstadoEnvio}}</td>
+                    <td><button (click)="verartic(i)" data-toggle="modal" data-target="#ArticuloModal">Ver</button></td>
+                    <td><mat-form-field>
+                        <mat-select id="{{pedidos.NroPedido}}"  [(value)]="estadoenv">
+                          <mat-option value="Proceso">Proceso</mat-option>
+                          <mat-option value="Enviado">Enviado</mat-option>
+                          <mat-option value="Entregado">Entregado</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <button (click)="actualizar(i)" >Cambiar</button>
+                    </td>
+                  </tr>
+                </tbody>
+
+              </table>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </main>
+</div>
+
+<!--MODAL-->
+<!-- Modal -->
+<div class="modal fade" id="ArticuloModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Articulos</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Articulo</th>
+              <th>Precio</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let articulos of arregloarti" >
+            <tr>
+              <td>{{articulos.titulo}}</td>
+              <td>{{articulos.precio}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+<ol id="migas" class="breadcrumb">
+  <li class="breadcrumb-item">
+    <button class="btn btn-link" routerLink="/">Inicio</button>
+  </li>
+  <li class="breadcrumb-item" *ngFor="let miga of migas">
+    <button class="btn btn-link" routerLink="{{miga.url}}">{{miga.item}}</button>
+  </li>
+</ol>

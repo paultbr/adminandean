@@ -1,0 +1,126 @@
+<h1 mat-dialog-title>Editar Banner</h1>
+<div mat-dialog-content style="display: flex; flex-direction: row; width: 100%; flex-wrap: wrap; color: black;">
+  <div style="width:100% ">
+
+      <mat-card class="example-card">
+          <mat-card-header>
+              <mat-card-subtitle >Imagen Banner</mat-card-subtitle>
+              
+                  
+                      <button mat-button style="width: 200px;" (click)="abrirDialogoArchivos()"><i class="material-icons">
+                          image_search
+                          </i> Buscar Imagen</button>
+          </mat-card-header>
+          <mat-card-content style="width: 100%; height: auto; margin-top: 10px;">            
+                  <img  style="height: auto;max-height: 250px; width: auto; max-width: 100%;" src="{{URL_IMAGES}}/lg/{{data.imagen}}" alt="{{data.imagen}}">
+          </mat-card-content>
+      </mat-card>
+  </div>
+  <div style="width: 50%">
+
+      <mat-card class="example-card">
+          <mat-card-header>
+              <mat-card-subtitle>Lista de Equipos</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+              <div class="datatable-example2" style="width: 100%;">
+                  <mat-form-field appearance="legacy"  style="width: 100%;">
+                    <input matInput (keyup)="applyFilter2($event.target.value)" placeholder="Buscar">
+                    <mat-icon matSuffix>search</mat-icon>
+                  </mat-form-field>
+                  <div class="mat-elevation-z2">
+                    <div style="min-height:300px; display:flex; flex-direction: column; justify-content: center; align-items: center;" [hidden]="!mostrarCargandoDatos">
+                        <mat-spinner [diameter]="80"></mat-spinner>
+                        <h4>Cargando lista de articulos</h4>
+                    </div>
+                    <table mat-table [dataSource]="dataSource2" matSort>
+                      <ng-container matColumnDef="Imagen">
+                        <th style="width: 20%;" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                        </th>
+                        <td style="width: 20%;" mat-cell *matCellDef="let row"> 
+                          <img src="{{URL_IMAGES}}/md/{{row.imagenes[0]}}"  style="width: 50px; height: auto;">
+                         </td>
+                      </ng-container>
+                      <ng-container matColumnDef="Descripcion">
+                        <th style="width: 35%;" mat-header-cell *matHeaderCellDef mat-sort-header> Descripción
+                        </th>
+                        <td style="width: 35%;" mat-cell *matCellDef="let row"> {{row.titulo}} </td>
+                      </ng-container>                      
+                      
+                      <ng-container matColumnDef="Agregar">
+                        <th style="width: 10%;" mat-header-cell *matHeaderCellDef mat-sort-header>  </th>
+                        <td style="width: 10%;" mat-cell *matCellDef="let row" style="color: green;" > <i class="material-icons btn-icon" (click)="agregarArticulo(row)">
+                          add
+                          </i> </td>
+                      </ng-container>
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns2;">
+                      </tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                  </div>
+                </div>
+          </mat-card-content>
+        </mat-card>
+  
+  </div>
+  <div style="width: 50%;">
+      <mat-card class="example-card">
+          <mat-card-header>
+              <mat-card-subtitle>Lista de Artculos Banner</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+              
+              <div style="width: 100%;">
+                  <div class="datatable-example2" style="width: 100%;">
+                      <mat-form-field appearance="legacy" style="width: 100%;">
+                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+                        <mat-icon matSuffix>search</mat-icon>
+                      </mat-form-field>
+                      <div class="mat-elevation-z2">                        
+                        <table mat-table [dataSource]="dataSource" matSort>
+                          <ng-container matColumnDef="Imagen">
+                            <th style="width: 20%;" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                            </th>
+                            <td style="width: 20%;" mat-cell *matCellDef="let row"> 
+                              <img src="{{URL_IMAGES}}/md/{{row.imagenes[0]}}"  style="width: 50px; height: auto;">
+                             </td>
+                          </ng-container>
+                          <ng-container matColumnDef="Descripcion">
+                            <th style="width: 35%;" mat-header-cell *matHeaderCellDef mat-sort-header> Descripción
+                            </th>
+                            <td style="width: 35%;" mat-cell *matCellDef="let row"> {{row.titulo}} </td>
+                          </ng-container>                      
+                          
+                          <ng-container matColumnDef="Agregar">
+                            <th style="width: 10%;" mat-header-cell *matHeaderCellDef mat-sort-header>  </th>
+                            <td style="width: 10%;" mat-cell *matCellDef="let row" style="color: rgb(214, 27, 27);" > <i class="material-icons btn-icon" (click)="eliminarArticuloBanner(row)">
+                              delete
+                              </i> </td>
+                          </ng-container>
+                          <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                          <tr mat-row *matRowDef="let row; columns: displayedColumns2;">
+                          </tr>
+                        </table>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                      </div>
+                    </div>
+            
+              </div>
+
+          </mat-card-content>
+      </mat-card>      
+  </div>
+
+  
+  
+  
+</div>
+<div mat-dialog-actions style="display: flex; flex-direction: row; justify-content: flex-end; padding: 10px;">
+  <button mat-stroked-button (click)="onNoClick()" style="margin-right: 10px;"> <i class="material-icons">
+    close
+    </i> Cancelar</button>
+  <button mat-stroked-button color="primary" [mat-dialog-close]="data" cdkFocusInitial> <i class="material-icons">
+    save
+    </i> Guardar</button>
+</div>

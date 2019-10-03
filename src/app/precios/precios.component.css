@@ -1,0 +1,16 @@
+.contenido-clientes{
+    display: flex; 
+    flex-direction: column;
+}
+.item-cliente{
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+}
+.btn-icon{
+    color: gray;
+    cursor: pointer;
+}
+.btn-icon:hover{
+    color: rgb(53, 112, 221);
+}

@@ -1,0 +1,137 @@
+<div class="app-body">
+  <main class="main">
+    <app-breadcrumb [migas]="migas"></app-breadcrumb>
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="card" style="width: 100%;">
+                <div class="card-header"> <i class="fa fa-list"></i>
+                  <strong>Lista de Distribuidores</strong>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-6" style="text-align: left !important;">
+                      <button class="btn btn-block btn-link" type="button" style="color: black; width: auto;"><i class="fa fa-plus"></i>
+                        Agregar Distribuidor</button><br>
+                    </div>
+                    <div class="col-lg-6">
+                    </div>
+                    <div class="col-lg-12">
+                      <div id="carga" style="width: 100%;text-align: center;">
+                        <img src="assets/imagenes/carga.gif"> Cargando Datos
+                      </div>
+                      <div id="listardistri">
+                        <table id="tabladistri" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTriggers" class="table table-responsive-sm table-sm table-striped table-hover">
+                          <thead>
+                            <tr>
+                              <th style="width: 8%;">Id</th>
+                              <th style="width: 8%;">Razon Social</th>
+                              <th style="width: 8%;">Representante</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let distri of distriService.distriMysql">
+                              <td>{{distri.idProveedorRUC}}</td>
+                              <td>{{distri.RazonSocial}}</td>
+                              <td>{{distri.NombreRepresentante}}</td>
+                              <!--   <td>{{distri.Estado}}</td>
+                        <td><button class="btn btn-success" data-toggle="modal" data-target="#modaldistri" (click)="guardartemdatos(distri)">editar</button></td>
+                        <td><button>eliminar</button></td>-->
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+
+<!--modalmarca-->
+<div class="modal fade" id="modaldistri" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+  data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document" id="modaldistricontenido">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="titulomodal">Actualizar datos del distribuidor:</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnCerrarModal">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!--  <form #distribuidorform="ngForm" (ngSubmit)="actualizardistri(distribuidorform)" >-->
+        <form>
+          <div class="container">
+            <div class="row">
+              <div class="form-group">
+                <div class="col-lg-6">
+                  <label style="font-weight: bold;">RUC:</label>
+                  <input class="form-control" id="idruc" type="tex" name="idruc" required style="border-color: rgb(114, 114, 114);">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-10">
+                  <label style="font-weight: bold;">Razon Social:</label>
+                  <input class="form-control" id="razonsocial" type="text" name="razonsocial" required style="border-color: rgb(114, 114, 114);">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-10">
+                  <label style="font-weight: bold;">Representante:</label>
+                  <input class="form-control" id="representante" type="text" name="representante" required style="border-color: rgb(114, 114, 114);">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-6">
+                  <label style="font-weight: bold;">DNI Representante:</label>
+                  <input class="form-control" id="representante" type="text" name="representante" required style="border-color: rgb(114, 114, 114);">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-4">
+                  <label style="font-weight: bold;">Telefono:</label>
+                  <input class="form-control" id="telefono" type="text" name="telefono" required style="border-color: rgb(114, 114, 114);">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-6">
+                  <label style="font-weight: bold;">Correo Electronico:</label>
+                  <input class="form-control" id="correo" type="text" name="correo" required style="border-color: rgb(114, 114, 114);">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-8">
+                  <label style="font-weight: bold;">WEB:</label>
+                  <input class="form-control" id="web" type="text" name="web" required style="border-color: rgb(114, 114, 114);">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-4">
+                  <label style="font-weight: bold;">Ciudad:</label>
+                  <input class="form-control" id="ciudad" type="text" name="ciudad" required style="border-color: rgb(114, 114, 114);">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-10">
+                  <label style="font-weight: bold;">Direccion:</label>
+                  <input class="form-control" id="direccion" type="text" name="direccion" required style="border-color: rgb(114, 114, 114);">
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--finmodalmarca-->

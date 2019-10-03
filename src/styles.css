@@ -1,0 +1,26 @@
+/* You can add global styles to this file, and also import other style files */
+/*@import "~@angular/material/prebuilt-themes/indigo-pink.css"; */
+
+.exito {
+    background-color: #2ECC71;
+    z-index: 9999;
+}
+
+.error {
+    background-color: #E74C3C;
+    z-index: 9999;
+}
+.cdk-overlay-container{
+    z-index: 9999;
+}
+.mat-card-header-text{
+    margin:0px !important;
+    width: 100% !important;
+}
+.mat-menu-content{
+    padding-top: 0!important;
+    padding-bottom: 0!important;
+}
+.dialog {
+    position: relative !important;
+}

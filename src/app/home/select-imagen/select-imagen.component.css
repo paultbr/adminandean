@@ -1,0 +1,30 @@
+.item-imagen-list {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 0;
+    margin: 3px;
+    border: 2px solid orange;
+    width: auto;
+    height: 150px;
+    background-color: rgb(199, 199, 199);
+    cursor: pointer;
+    min-width: 150px;
+}
+
+.imagen-item-articulo {
+    display: block;
+    width: auto;
+    height: 100%;
+}
+
+#iconCerrar {
+    position: absolute;
+    top: -1rem;
+    right: -1rem;
+}
+
+.nombre-imagen-cont {
+    background-color: rgba(0, 0, 0, 0.637);
+    color: white;
+
+}

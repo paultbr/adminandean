@@ -1,0 +1,166 @@
+<div style="display:flex; flex-direction: row;align-items: center; justify-content: space-between; margin-bottom: 10px;">
+  <label style="font-size: 25px;">Archivos</label>
+  <div>
+
+      <input type="file" style="display: none;" (change)="subirImagenServer($event)"
+      id="imagen_input_image"> 
+      <button mat-button (click)="buscaNuevaImagen()"> <i class="material-icons">cloud_upload</i> Subir Imagen</button>
+      <button mat-button (click)="crearCarpeta()"> <i class="material-icons">create_new_folder</i> Crear Carpeta</button>
+  </div>
+
+
+</div>
+
+
+<div mat-dialog-content style="overflow: auto;">
+       
+    <div style="width: 100%; display: flex;  flex-direction: row; align-items: center;">
+        <button mat-icon-button aria-label="Example icon-button with a heart icon" (click)="irInicio()">
+            <mat-icon>home</mat-icon>
+        </button>
+        <button mat-icon-button aria-label="Example icon-button with a heart icon"(click)="irAtras()">
+            <mat-icon>arrow_back</mat-icon>
+        </button>    
+        <button mat-icon-button aria-label="Example icon-button with a heart icon"(click)="actualizar()">
+            <mat-icon>refresh</mat-icon>
+        </button>
+      <div style=" display: flex; flex-direction: row; justify-content: flex-start;align-items: center ; color: rgb(85, 85, 85); margin-left: 10px; border-radius: 10px; height: 30px; background-color: rgb(235, 235, 235); width: 100%;">{{nombreruta}}</div>
+      <mat-form-field appearance="legacy" style="width:200px; height: 30px; margin-left: 10px; margin-bottom: 18px;">
+          
+          <input matInput placeholder="Buscar archivo">
+          <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>    
+    </div>
+    <div style="display: flex; flex-direction: row; width: auto; overflow: auto; align-items: flex-start;" [hidden]="mostrarCargandoDatos">
+      <div *ngFor="let file of listaCarpetas" class="item-folder noseleccionable" (dblclick)="abrirCarpeta(file)" style="height: auto; position: relative;">
+          <div class="menu-file">
+              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" style="padding: 0;margin: 0; width: auto; height: auto;" >
+                  <mat-icon style="color: rgb(255, 255, 255); padding: 0;margin: 0; ">more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" style="padding-bottom: 0; padding-top: 0;">
+                  <button mat-menu-item style="margin: 0;"(click)="eliminarCarpeta(file)">
+                    <mat-icon>delete_forever</mat-icon>
+                    <span>Eliminar</span>
+                  </button>
+                </mat-menu>
+          </div>
+          <div *ngIf="!file.includes('.webp')">
+              <i class="material-icons" style="font-size: 40px!important;color: rgb(255, 187, 0); margin-left: 15px; margin-right: 15px; ">
+                  folder
+                  </i>
+          </div>
+          <div *ngIf="!file.includes('.webp')" style=" width: auto; font-size: small;bottom: 0; left: 0;color: rgb(48, 48, 48); text-align: center;">
+            {{file}}
+          </div>
+      </div>
+      <div class="item-file noseleccionable" style="height: auto; " [hidden]="!mostrarnuevacarpeta">
+        <div>
+            <i class="material-icons" style="font-size: 40px!important;color: rgb(255, 187, 0) ">
+                folder
+                </i>
+        </div>
+        <div  style=" width: auto; font-size: small;bottom: 0; left: 0;color: rgb(48, 48, 48); text-align: center;">
+        <input id="input_nueva_carpeta" #input_nueva_carpeta type="text" [(ngModel)] ="nuevaCarpeta"  [ngModelOptions]="{standalone: true}" style="width: auto;">
+        </div>
+        <div style="display: flex; flex-direction: row; justify-content: center; width: 100%; ">
+          <button (click)="procesarCreacionCarpeta()" mat-icon-button aria-label="Example icon-button with a heart icon">
+            <mat-icon style="color: green;">check</mat-icon>
+          </button>
+          <button (click)="cancelarCreacionCarpeta()" mat-icon-button color="primary" aria-label="Example icon-button with a heart icon">
+            <mat-icon style="color: red;">close</mat-icon>
+          </button>
+        </div>
+    </div>
+    </div>
+    
+   
+    <mat-card *ngIf="opcion == 'simple'" class="example-card" [hidden]="mostrarCargandoDatos">
+        <mat-card-content style="display: flex; flex-direction: row; width: 100%; flex-wrap: wrap; height: auto;position: relative;min-height:200px;" >
+          <div *ngFor="let file of listaArchivos" class="item-file noseleccionable" (click)="seleccionarArchivo(file)"  style="justify-content: center; align-items: center; position: relative;" >
+            <div class="menu-file">
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" style="padding: 0;margin: 0; width: auto; height: auto;" >
+                    <mat-icon style="color: rgb(255, 255, 255); padding: 0;margin: 0; ">more_vert</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu" style="padding-bottom: 0; padding-top: 0;">
+                    <button mat-menu-item style="margin: 0;"(click)="eliminaArchivo(file)">
+                      <mat-icon>delete_forever</mat-icon>
+                      <span>Eliminar</span>
+                    </button>
+                  </mat-menu>
+            </div>
+            <div *ngIf="archivoSeleccionado == file && file.includes('.webp')" style="top:0; background-color: rgba(114, 114, 114, 0.39); height: 100%; width: 100%;z-index: 100; left: 0;display: flex; flex-direction: row; justify-content: center; align-items: center; position: absolute; ">
+                <i class="material-icons" style="font-size: 55px!important;">
+                    check_circle_outline
+                    </i>
+            </div>
+
+            <div  *ngIf="file.includes('.webp')" style="display: flex; flex-direction: row; justify-content: center; align-items: center;position: relative;">
+                <img src="{{URL_IMAGES}}/md{{nombreruta}}/{{file}}"  style="max-height: 90px; width: auto; height: auto;border-radius: 5px;">
+
+            </div>
+            <div  *ngIf="file.includes('.webp')" style=" width: auto; font-size: small; bottom: 0; left: 0;color: rgb(48, 48, 48);">
+              {{file.replace(".webp","") }}
+            </div>
+          </div>
+          <div style="min-height:300px; display:flex; flex-direction: column; justify-content: center; align-items: center; width: 100%;" [hidden]="!nohayArchivos">
+        
+            <h4 style="color: rgb(165, 165, 165);">Carpeta vacia</h4>
+        </div>
+          
+        </mat-card-content>
+        
+      </mat-card>
+
+      <mat-card *ngIf="opcion == 'multi'" class="example-card" [hidden]="mostrarCargandoDatos">
+        <mat-card-content style="display: flex; flex-direction: row; width: 100%; flex-wrap: wrap; height: auto;position: relative;min-height:200px;" >
+          
+          <div *ngFor="let file of listaArchivos" class="item-file noseleccionable" (click)="seleccionarArchivo(file)" style="justify-content: center; align-items: center;position: relative;" >
+              <div class="menu-file">
+                  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" style="padding: 0;margin: 0; width: auto; height: auto;" >
+                      <mat-icon style="color: rgb(255, 255, 255); padding: 0;margin: 0; ">more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu" style="padding-bottom: 0; padding-top: 0;">
+                      <button mat-menu-item style="margin: 0;"(click)="eliminaArchivo(file)">
+                        <mat-icon>delete_forever</mat-icon>
+                        <span>Eliminar</span>
+                      </button>
+                    </mat-menu>
+              </div>
+            <div *ngIf="listaArchivosSeleccionados.includes(file) && file.includes('.webp')" style="top:0; background-color: rgba(114, 114, 114, 0.39); height: 100%; width: 100%;z-index: 100; left: 0;display: flex; flex-direction: row; justify-content: center; align-items: center; position: absolute; ">
+                <i class="material-icons" style="font-size: 55px!important;">
+                    check_circle_outline
+                    </i>
+            </div>
+
+            <div  *ngIf="file.includes('.webp')" style="display: flex; flex-direction: row; justify-content: center; align-items: center;position: relative;">
+                <img src="{{URL_IMAGES}}/md{{nombreruta}}/{{file}}"  style="max-height: 90px; width: auto; height: auto;border-radius: 5px;">
+
+            </div>
+            <div  *ngIf="file.includes('.webp')" style=" width: auto; font-size: small; bottom: 0; left: 0;color: rgb(48, 48, 48);">
+              {{file.replace(".webp","") }}
+            </div>
+          </div>
+          <div style="min-height:300px; display:flex; flex-direction: column; justify-content: center; align-items: center; width: 100%;" [hidden]="!nohayArchivos">
+        
+            <h4 style="color: rgb(165, 165, 165);">Carpeta vacia</h4>
+        </div>
+          
+        </mat-card-content>
+        
+      </mat-card>
+      <div style="min-height:300px; display:flex; flex-direction: column; justify-content: center; align-items: center;" [hidden]="!mostrarCargandoDatos">
+          <mat-spinner [diameter]="80"></mat-spinner>
+          <h4>Cargando...</h4>
+      </div>
+
+      
+      
+</div>
+<div mat-dialog-actions style="display: flex; flex-direction: row; justify-content: flex-end; padding: 10px;">
+  <button mat-stroked-button (click)="onNoClick()" style="margin-right: 10px;"> <i class="material-icons" style="color: rgb(187, 5, 5)">
+    close
+    </i> Cancelar</button>
+  <button mat-stroked-button  [mat-dialog-close]="data" cdkFocusInitial  [disabled]="desactivarBoton" > <i class="material-icons" style="color: green">
+      check
+    </i> Aceptar</button>
+</div>

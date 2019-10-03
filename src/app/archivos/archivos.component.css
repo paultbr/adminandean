@@ -1,0 +1,83 @@
+.contenido-archivos{
+    display: flex;
+    flex-direction: column;
+    background-color: white;   
+    width: 100%;
+    height: 100%;
+
+}
+.header-cont{
+    width: 100%; 
+    display: flex; 
+    flex-direction: row; 
+    padding: 10px; 
+    border-bottom: 1px solid rgb(185, 185, 185);
+    align-items: center;
+}
+.body-cont{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    width: 98%;
+    
+}
+.item-file{
+    width: auto; 
+    height: 120px; 
+    margin: 5px; 
+    padding: 5px; 
+    border: solid 1px rgb(255, 255, 255); 
+    display: flex; 
+    flex-direction: column; 
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+.item-folder{
+    width: auto; 
+    height: 120px; 
+    padding: 5px;       
+    border: solid 1px rgb(255, 255, 255); 
+    display: flex; 
+    flex-direction: column; 
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+.item-folder:hover{
+    background-color: rgba(172, 171, 170, 0.281) ; 
+    border-radius: 5px;
+    cursor: pointer;
+}
+.item-file:hover{
+    background-color: rgba(172, 171, 170, 0.281) ; 
+    border-radius: 5px;
+    cursor: pointer;
+}
+.menu-file{
+    display: flex;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 250;
+    color: white;
+    
+}
+.item-file:hover .menu-file{
+ background-color: rgba(78, 78, 78, 0.603);
+}
+.item-folder:hover .menu-file{
+    color: gray;
+}
+.noseleccionable{
+    -moz-user-select: -moz-none;
+      -khtml-user-select: none;
+      -webkit-user-select: none;
+      -o-user-select: none;
+      user-select: none;
+  
+      outline:0px !important;
+  }

@@ -1,0 +1,516 @@
+<app-header></app-header>
+<app-menu></app-menu>
+<div class="app-body">
+  <main class="main">
+    <app-breadcrumb [migas]="migas"></app-breadcrumb>
+    <div class="container-fluid">
+      <div class="card" id="divnombrecliente">
+        <button class="btn btn-default" style="margin-right: 5px;" (click)="cambiarvista2()">
+          <i class="fa fa-angle-left"></i> Regresar</button>
+        <h2>Cliente:{{cliente}}</h2>
+      </div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-container">
+                <table class="table" id="tablapedido">
+                  <tr>
+                    <th style="width: 8%"><i class="material-icons" style="color: chartreuse">
+                        attach_money
+                      </i>
+                      <label style="font-weight: normal;font-size: 10px">Valor de los pedidos:
+                        s/.{{preciototalcarritos}}</label>
+                    </th>
+                    <th (click)="filtrarCarritos('1')" style="width: 8%"><i class="material-icons"
+                        style="color: yellow">
+                        shopping_cart
+                      </i>
+                      <label style="font-weight: normal;font-size: 10px">Total de carritos: {{totalcarritos}}</label>
+                    </th>
+                    <th (click)="filtrarCarritos('2')" style="width: 8%"><i class="material-icons" style="color: blue">
+                        shopping_cart
+                      </i>
+                      <label style="font-weight: normal;font-size: 10px">Carritos Pagados: {{carPagados}}</label>
+                    </th>
+                    <th (click)="filtrarCarritos('3')" style="width: 8%"><i class="material-icons"
+                        style="color: orange">
+                        shopping_cart
+                      </i>
+                      <label style="font-weight: normal;font-size: 10px">Carritos en Proceso: {{carProceso}}</label>
+                    </th>
+                    <th (click)="filtrarCarritos('4')" style="width: 8%"><i class="material-icons"
+                        style="color: orangered">
+                        shopping_cart
+                      </i>
+                      <label style="font-weight: normal;font-size: 10px">Carritos con Reembolso:
+                        {{carReembolso}}</label>
+                    </th>
+                    <th (click)="filtrarCarritos('5')" style="width: 8%"><i class="material-icons" style="color: red">
+                        shopping_cart
+                      </i>
+                      <label style="font-weight: normal;font-size: 10px">Carritos con Error de Pago:
+                        {{carErrorPago}}</label>
+                    </th>
+                    <!--  <th><i class="material-icons" style="color: red">
+                        remove_shopping_cart
+                      </i>
+                      <label style="font-weight: normal">Carritos abandonados:0</label>
+                    </th>-->
+                  </tr>
+                </table>
+                <table class="table" id="tabladetallepedido">
+                  <tr>
+                    <th><i class="material-icons" style="color: rgb(255, 0, 242);">
+                        date_range
+                      </i>
+                      <label style="font-weight: normal;font-size: 12px">Fecha: {{fechacompra}}</label>
+                    </th>
+                    <th><i class="material-icons" style="color: rgb(21, 240, 39)">
+                        attach_money
+                      </i>
+                      <label style="font-weight: normal">Total: {{preciototal}}</label>
+                    </th>
+                    <!--<th><i class="material-icons" style="color: red">
+                        chat
+                      </i>
+                      <label style="font-weight: normal">Mensajes</label>
+                    </th>-->
+                    <th><i class="material-icons" style="color: rgb(0, 140, 255)">
+                        library_books
+                      </i>
+                      <label style="font-weight: normal">Productos</label>
+                    </th>
+                  </tr>
+                </table>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-lg-12" id="listapedidos">
+            <div class="animated fadeIn">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="card" style="width: 100%;">
+                      <div class="card-header"> <i class="fa fa-list"></i>
+                        <strong>Pedidos</strong>
+                      </div>
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-lg-6">
+                          </div>
+                          <div class="col-lg-12">
+                            <!--  <div id="carga" style="width: 100%;text-align: center;">
+                            <img src="assets/imagenes/carga.gif"> Cargando Datos
+                          </div>-->
+                            <div id="listarmarcas">
+                              <!--  <table id="tablamarca" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTriggers" class="table table-responsive-sm table-sm table-striped table-hover"
+                                style="font-size: 12px">
+                                <thead>
+                                  <tr>
+                                    <th style="width: 8%">N° Pedido</th>
+                                    <th style="width: 8%;">Cliente</th>
+                                    <th style="width: 8%;">Entrega</th>
+                                    <th style="width: 8%;">Fecha</th>
+                                    <th style="width: 8%">Pago</th>
+                                    <th style="width: 8%">Total</th>
+                                    <th style="width: 14%">Estado</th>
+                                    <th style="width: 4%"></th>
+                                    <th style="width: 4%"></th>
+
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let pedido of pedidosservice.pedidos" id="{{pedido._id}}">
+                                    <td>{{pedido._id}}</td>
+                                    <td>{{pedido.idUsuario}}</td>
+                                    <td>{{pedido.EstadoEnvio}}</td>
+                                    <td>{{pedido.FechaEnvio}}</td>
+                                    <td>{{pedido.idTipoPago}}</td>
+                                    <td>{{pedido.PrecioTotal}}</td>
+                                    <td>{{pedido.EstadoPago}}</td>
+                                    <td>
+                                      <div class="btn-group btn-group-sm" role="group">
+                                        <button type="button" class="btn btn-primary"><i class="material-icons">assignment</i></button>
+                                        <button type="button" class="btn btn-primary"><i class="material-icons">local_shipping</i></button>
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div class="btn-group btn-group-sm" role="group">
+                                        <button *ngIf="pedido.EstadoPago=='Pagado'" (click)="cambiarvista(pedido._id,pedido.idUsuario,pedido.idDireccion,pedido.PrecioTotal)"
+                                          type="button" class="btn btn-success" style="background-color: green"><i
+                                            class="material-icons">zoom_in</i>VER</button>
+                                        <button *ngIf="pedido.EstadoPago=='Proceso'" (click)="cambiarvista(pedido._id,pedido.idUsuario,pedido.idDireccion,pedido.PrecioTotal)"
+                                          type="button" class="btn btn-success" style="background-color: orange"><i
+                                            class="material-icons">zoom_in</i>VER</button>
+                                        <button *ngIf="pedido.EstadoPago=='Reembolso'" (click)="cambiarvista(pedido._id,pedido.idUsuario,pedido.idDireccion,pedido.PrecioTotal)"
+                                          type="button" class="btn btn-success" style="background-color: yellow"><i
+                                            class="material-icons">zoom_in</i>VER</button>
+                                        <button *ngIf="pedido.EstadoPago=='Error de pago'" (click)="cambiarvista(pedido._id,pedido.idUsuario,pedido.idDireccion,pedido.PrecioTotal)"
+                                          type="button" class="btn btn-success" style="background-color: red"><i class="material-icons">zoom_in</i>VER</button>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>-->
+                              <!--tabla material-->
+                              <div>
+                                <mat-form-field>
+                                  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter"
+                                    [(ngModel)]=" textofiltro">
+                                </mat-form-field>
+
+                                <div class="mat-elevation-z8">
+                                  <table mat-table [dataSource]="dataSource" matSort id="tablapedidos">
+
+                                    <!-- ID Column -->
+                                    <ng-container matColumnDef="_id">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Numero Pedido </th>
+                                      <td mat-cell *matCellDef="let row" style="font-size: 12px" [style.background-color]="row.Colorfila"> {{row._id}} </td>
+                                    </ng-container>
+
+                                    <!-- Progress Column -->
+                                    <ng-container matColumnDef="Correocliente">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Cliente </th>
+                                      <td mat-cell *matCellDef="let row" style="font-size: 12px" [style.background-color]="row.Colorfila"> {{row.Correocliente}}
+                                      </td>
+                                    </ng-container>
+                                    <!-- ID Column -->
+                                    <ng-container matColumnDef="entrega">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado Entrega </th>
+                                      <td mat-cell *matCellDef="let row"  style="font-size: 12px" [style.background-color]="row.Colorfila"> {{row.entrega}} </td>
+                                    </ng-container>
+
+                                    <!-- Progress Column -->
+                                    <ng-container matColumnDef="fecha">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Compra </th>
+                                      <td mat-cell *matCellDef="let row" style="font-size: 12px" [style.background-color]="row.Colorfila"> {{row.fecha}} </td>
+                                    </ng-container>
+                                    <!-- ID Column -->
+                                    <ng-container matColumnDef="pago">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo Pago </th>
+                                      <td mat-cell *matCellDef="let row" style="font-size: 12px" [style.background-color]="row.Colorfila"> {{row.pago}} </td>
+                                    </ng-container>
+
+                                    <!-- Progress Column -->
+                                    <ng-container matColumnDef="total">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Total </th>
+                                      <td mat-cell *matCellDef="let row" style="font-size: 12px" [style.background-color]="row.Colorfila"> {{row.total}} </td>
+                                    </ng-container>
+                                    <!-- Progress Column -->
+                                    <ng-container matColumnDef="estado">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado de Pago </th>
+                                      <td mat-cell *matCellDef="let row" style="font-size: 12px" [style.background-color]="row.Colorfila"> {{row.estado}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="btn">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>-- </th>
+                                      <td mat-cell *matCellDef="let row" style="font-size: 12px" [style.background-color]="row.Colorfila">
+                                        <button mat-raised-button *ngIf="row.estado=='Pagado'" color="primary"
+                                          (click)="cambiarvista(row._id,row.idUsuario,row.direccion,row.total)">VER</button>
+                                        <button mat-raised-button *ngIf="row.estado=='Proceso'"
+                                          (click)="cambiarvista(row._id,row.idUsuario,row.direccion,row.total)">VER</button>
+                                        <button mat-raised-button *ngIf="row.estado=='Reembolso'" color="accent"
+                                          (click)="cambiarvista(row._id,row.idUsuario,row.direccion,row.total)">VER</button>
+                                        <button mat-raised-button *ngIf="row.estado=='Error de pago'" color="warn"
+                                          (click)="cambiarvista(row._id,row.idUsuario,row.direccion,row.total)">VER</button>
+                                      </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                  </table>
+
+                                  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                </div>
+                              </div>
+                              <!--tabla fin-->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="container-fluid" id="dettallepedido">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 portfolio-item portafolio-div1">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <mat-form-field style="width: 50%">
+                        <mat-select placeholder="Tipo Documento" [(value)]="tipodoc">
+                          <mat-option value="BBV">Boleta</mat-option>
+                          <mat-option value="FFV">Factura</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-lg-4">
+                      <mat-form-field appearance="outline"  style="width: 50%">
+                        <mat-label>Serie</mat-label>
+                        <input matInput placeholder="Placeholder" [(ngModel)]="seriedoc">
+                        <mat-icon matSuffix>assignment</mat-icon>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-lg-4">
+                      <mat-form-field appearance="outline"  style="width: 50%">
+                        <mat-label>Numero</mat-label>
+                        <input matInput placeholder="Placeholder" [(ngModel)]="numerodoc">
+                        <mat-icon matSuffix>assignment</mat-icon>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+                <p>
+
+
+
+                </p>
+                <!--    <button class="btn btn-outline-primary" style="margin-right: 15px"><i class="material-icons" style="font-size: 18px;">print</i>&nbsp;Imprimir
+                  pedido</button>
+                <button class="btn btn-outline-success"><i class="material-icons" style="font-size: 18px;">print</i>&nbsp;Imprimir
+                  fac tura</button>-->
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12 col-md-6 col-sm-6 portfolio-item">
+            <div class="card h-100">
+              <div class="card-header" style="height: 15px;">
+                <p class="card-tittle" style="font-size:15px;margin-top: -13px"><i class="material-icons"
+                    style="font-size:20px;">assignment</i>&nbsp;Estado
+                  del pedido</p>
+              </div>
+              <div class="card-body">
+                <table class="table">
+                  <tr>
+                      <td><button mat-stroked-button color="accent" (click)="verCargo(nrotrans)" >Ver Cargo</button></td>
+                  </tr>
+                  <tr>
+                    <td style="color:black">Estado de Envio</td>
+                    <td><label id="extadoselect" style="color:black">{{estadoenvio}}</label></td>
+                    <td>
+                      <select style="width: 150px" id="selectestado" class="form-control" (change)="cambiarestado()">
+                        <option value="1" selected>Proceso</option>
+                        <option value="3">Enviado</option>
+                        <option value="4">Devolucion</option>
+                      </select>
+                    </td>
+                    <td>
+                      <button class="btn btn-outline-success" style="font-size: 10px" (click)="actualizar()">ACTUALIZAR
+                        ESTADO DE ENVIO</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Estado de Pago</td>
+                    <td><label id="extadoselect2" style="color:black">{{estadopago}}</label></td>
+                    <td>
+                      <select style="width: 150px" id="selectestadopago" class="form-control"
+                        (change)="cambiarestadopago()">
+                        <option value="p1">Proceso</option>
+                        <option value="p2">Error de pago</option>
+                        <option value="p3" selected>Pagado</option>
+                        <option value="p4">Reembolso</option>
+                      </select>
+                    </td>
+                    <td>
+                      <button class="btn btn-outline-success" style="font-size: 10px" (click)="actualizar2()">ACTUALIZAR
+                        ESTADO DE PAGO</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Tipo de Pago</td>
+                    <td>{{tipopago}}</td>
+                    <td>N° Pedido</td>
+                    <td>{{numeropedido}}</td>
+                  </tr>
+                  <tr>
+                    <td>Fecha de Compra</td>
+                    <td>{{fechacompra}}</td>
+                    <td>Fecha de Envio</td>
+                    <td>
+                      <mat-form-field style='margin-top: -15px'>
+                        <input matInput [matDatepicker]="picker" [(ngModel)]="fecha">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field>
+                    </td>
+                  </tr>
+                </table>
+                <div class="container-fluid ">
+                  <div class="row">
+                    <div class="col-lg-6">
+
+                    </div>
+                    <div class="col-lg-4">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--    <div class="col-lg-6 col-md-6 col-sm-6 portfolio-item">
+            <div class="card h-100">
+              <div class="card-header" style="height: 15px;">
+                <p class="card-tittle" style="font-size:15px;margin-top: -13px"><i class="material-icons" style="font-size:20px;">payment</i>&nbsp;Pago</p>
+              </div>
+              <div class="card-body">
+                <h4 class="card-title">
+                  <p class="card-text">Tipo Pago</p>
+                  <p class="card-text">Estado Pago</p>
+                </h4>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 portfolio-item">
+            <div class="card h-100">
+              <div class="card-header" style="height: 15px;">
+                <p class="card-tittle" style="font-size:15px;margin-top: -13px"><i class="material-icons" style="font-size:20px;">mail_outline</i>&nbsp;Mensajes</p>
+              </div>
+              <div class="card-body">
+                <h4 class="card-title">
+                  <a>texto1</a>
+                </h4>
+                <p class="card-text">subtex1</p>
+              </div>
+            </div>
+          </div>-->
+          <div class="col-lg-12 col-md-6 col-sm-6 portfolio-item">
+            <div class="card h-100">
+              <div class="card-header" style="height: 15px;">
+                <p class="card-tittle" style="font-size:15px;margin-top: -13px"><i class="material-icons"
+                    style="font-size:20px;">person</i>&nbsp;Cliente</p>
+              </div>
+              <div class="card-body">
+                <table class="table">
+                  <tr>
+                    <td style="width: 10%;">Nombre:</td>
+                    <td>{{cliente}}</td>
+                    <td style="width: 10%;">Usuario:</td>
+                    <td>{{clientesuser}}</td>
+                  </tr>
+                </table>
+                <div class="card h-100">
+                  <div class="card-header">
+                    <p class="card-tittle" style="font-size:15px;margin-top: -13px"><i class="material-icons"
+                        style="font-size:20px;">person</i>&nbsp;Direccion</p>
+                  </div>
+                  <div class="card-body">
+                    <table class="table">
+                      <tr>
+                        <td>Direccion:</td>
+                        <td>{{direccionenvio}}</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12 col-md-6 col-sm-3 portfolio-item">
+            <div class="card h-100">
+              <div class="card-header" style="height: 15px;">
+                <p class="card-tittle" style="font-size:15px;margin-top: -13px"><i class="material-icons"
+                    style="font-size:20px;">shopping_cart</i>&nbsp;Productos</p>
+              </div>
+              <div class="card-body">
+                <table class="table" style="font-size: 12px;">
+                  <tr>
+                    <th>Articulo</th>
+                    <th>Linea</th>
+                    <th>Plan</th>
+                    <th>Nombre Plan</th>
+                    <th>Precio</th>
+                    <th>IDArticulo</th>
+                    <th>Serie</th>
+                    <th>Agregar Serie</th>
+                  </tr>
+                  <tr *ngFor="let articulo of Articuloarreglo; let i = index">
+                    <td>{{articulo.titulo}}</td>
+                    <td>{{articulo.tipolinea}}</td>
+                    <td>{{articulo.tipoplan}}</td>
+                    <td>{{articulo.nombreplan}}</td>
+                    <td>s/. {{articulo.precio}}</td>
+                    <td>{{articulo.idarticulo}}</td>
+                    <td>
+                     <!-- <mat-form-field appearance="legacy" style="font-size: 10px">
+                        <input id="listser{{articulo.idarticulo}}" matInput placeholder="Ingresar Serie de Articulo">
+                      </mat-form-field>-->
+                      <label>{{listpruebaseries[i]}}</label>
+                    </td>
+                    <td> <button id="articulo.idarticulo" mat-raised-button color="accent" data-toggle="modal"
+                        data-target="#exampleModal" (click)="recuperarseries(articulo.idarticulo,i)">Agregar
+                        Serie</button></td>
+                  </tr>
+                  <tr>
+                    <td>Total</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="color: red">s/. {{preciototal}}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </table>
+                <div>
+                  <button mat-stroked-button color="primary" (click)="actualizarpago()">FINALIZAR VENTA</button>
+                  <button mat-stroked-button color="warn" (click)="anularVenta(nrotrans)">ANULAR VENTA</button>
+                 <!-- <button mat-stroked-button color="warn" (click)="actualizarpedidoartiseries()">ANULAR VENTA</button> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!--MODAL SERIES-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button id='btncerrar' type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <mat-selection-list #listaseries (selectionChange)="onSelection($event, listaseries.selectedOptions)" >
+              <mat-list-option *ngFor="let serie of listaseries2" [value]='serie'>
+                {{serie}}
+              </mat-list-option>
+            </mat-selection-list>
+            <p>
+                Serie Seleccionada: {{ serieselec }}
+              </p>
+            <p>
+              N° de series seleccionadas: {{listaseries.selectedOptions.selected.length}}
+            </p>
+            <p>Series Seleccioandas:</p>
+            <ul>
+              <li *ngFor="let i of listaseries.selectedOptions.selected">
+                {{ i.value }}
+              </li>
+            </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelarseries()" >Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="guardarSeries()" >Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--FIN MODAL-->

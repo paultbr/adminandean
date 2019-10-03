@@ -1,0 +1,42 @@
+<h1 mat-dialog-title>Articulo:  {{data.descripcion}}</h1>
+<div mat-dialog-content>
+  
+  <mat-form-field appearance="outline" style="margin-right: 10px;">
+    <mat-label>Precio de Compra sin IGV</mat-label>
+    <input matInput placeholder="Ingrese precio compra" [(ngModel)]="data.preciocomprasinigv" [disabled]="true">
+    <span matPrefix>S/&nbsp;</span>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" style="margin-right: 10px;">
+    <mat-label>Precio de Venta</mat-label>
+    <input matInput placeholder="Ingrese precio venta" [(ngModel)]="data.precioventa" >
+    <span matPrefix>S/&nbsp;</span>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" style="margin-right: 10px;">
+    <mat-label>Precio de Venta Minimo</mat-label>
+    <input matInput placeholder="Ingrese precio venta minimo" [(ngModel)]="data.precioventaminimo">
+    <span matPrefix>S/&nbsp;</span>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" style="margin-right: 10px;">
+    <mat-label>Descuento</mat-label>
+    <input matInput placeholder="Ingrese descuento" [(ngModel)]="data.descuento">
+    <span matSuffix> %</span>
+  </mat-form-field>
+  <mat-form-field  appearance="outline" id="fechavigencia" >
+      <mat-label>Fecha Vigencia</mat-label>
+    <input matInput [matDatepicker]="picker" placeholder="Fecha de Vigencia" name="fechavigencia"
+      [(ngModel)]="data.fechavigencia">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions style="display: flex; flex-direction: row; justify-content: flex-end; padding: 10px;">
+  <button mat-stroked-button (click)="onNoClick()" style="margin-right: 10px;"> <i class="material-icons">
+    close
+    </i> Cancelar</button>
+  <button mat-stroked-button color="primary" [mat-dialog-close]="data" cdkFocusInitial> <i class="material-icons">
+    save
+    </i> Guardar</button>
+</div>

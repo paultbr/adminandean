@@ -1,0 +1,133 @@
+<div class="app-body">
+  <main class="main">
+    <app-breadcrumb [migas]="migas"></app-breadcrumb>
+    <div class="container-fluid">
+      <div class="animated fadeIn" id="marcageneral">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="card" style="width: 100%;">
+                <div class="card-header"> <i class="fa fa-list"></i>
+                  <strong>Lista de Marcas</strong>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <!--<div class="col-lg-6" style="text-align: left !important;">
+                      <button class="btn btn-block btn-link" type="button" style="color: black; width: auto;"><i
+                          class="fa fa-plus"></i>
+                        Agregar Marca</button><br>
+                    </div>
+                    <div class="col-lg-6">
+                    </div>-->
+                    <div class="col-lg-12">
+                      <div id="carga" style="width: 100%;text-align: center;">
+                        <img src="assets/imagenes/carga.gif"> Cargando Datos
+                      </div>
+                      <div id="listarmarcas">
+                        <table id="tablamarca" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTriggers"
+                          class="table table-responsive-sm table-sm table-striped table-hover">
+                          <thead>
+                            <tr>
+                              <th style="width: 8%;">Id</th>
+                              <th style="width: 8%;">Marca</th>
+                              <th style="width: 2%;"></th>
+                              <th style="width: 2%"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let marca of marcaService.marcaMysql">
+                              <td>{{marca.idMarcaProducto}}</td>
+                              <td>{{marca.NombreMarca}}</td>
+                              <td style="align-items: center;"><button *ngIf="marca.Estado == 0" mat-raised-button
+                                  color="primary" (click)="cambiarvista(marca)">Completar Registro</button>
+                                <i style="width: 100%; text-align: center;" *ngIf="marca.Estado == 1"
+                                  class="material-icons">
+                                  done
+                                </i>
+                              </td>
+                              <td>
+                                <i class="material-icons" style="color: green" *ngIf="marca.Estado == 1"
+                                  (click)="editarMarca(marca)">
+                                  edit
+                                </i>
+                                <i class="material-icons" style="color: gray;" *ngIf="marca.Estado == 0">
+                                  edit
+                                </i>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--marca detalle-->
+      <div class="container-fluid" id="marca-detalle">
+        <div class="card">
+          <div class="card-header" (click)="regresar()"><button class="btn btn-success"><i
+                class="material-icons">arrow_back</i></button></div>
+          <div class="card-body">
+            <br>
+            <form>
+              <input type="hidden" name="_id" [(ngModel)]="marcaService.marcaselect._id">
+              <div class="row">
+                <div class="col-lg-5">
+                  <div class="form-group">
+                    <label for="name">Nombre de la Marca</label>
+                    <textarea class="form-control" id="nombremarca" name="nombremarca"
+                      [(ngModel)]="marcaService.marcaselect.nombremarca"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="name">Descripción de la Marca</label>
+                    <textarea class="form-control" id="descripcion" name="descripcion"
+                      [(ngModel)]="marcaService.marcaselect.descripcion" rows="3"
+                      placeholder="Ingrese una breve descripción sobre la marca" required></textarea>
+                  </div>
+                  <input type="text" name="imagen" id="imagen" [(ngModel)]="marcaService.marcaselect.imagen"
+                    [style.display]="'none'" required>
+                </div>
+                <div class="col-lg-5">
+                  <div class="col-lg-12">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <label>Imagen de la Marca</label>
+                      </div>
+                      <div class="col-lg-12">
+                        <div style="display:flex; flex-direction: row; width: 100%; ">
+                          <div style="flex-grow: 0;margin-right: 2px;">
+                            <button mat-button (click)="abrirDialogoImagen()"> <i class="material-icons">
+                              image_search
+                              </i> Buscar Imagen</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-12">
+                        <div class="cont-imagen">
+                          <img src="" style="width: 100%; height: auto;" id="imagen-select">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-12" style="text-align: right">
+                    <hr>
+                   <!-- <button type="button" class="btn btn-default" (click)="limpiarform(marcaForm)"><i
+                        class="fa fa-trash"></i>
+                      Limpiar</button>-->
+                    <button type="submit" class="btn btn-success" style="margin-left: 10px;" (click)="guardarmarca()">
+                      <i class="fa fa-save"></i>
+                      Guardar</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
